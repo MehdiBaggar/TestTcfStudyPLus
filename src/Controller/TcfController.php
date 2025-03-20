@@ -220,7 +220,7 @@ final class TcfController extends AbstractController
 
             try {
                 // Déplacer le fichier dans le répertoire public_html/audio
-                $audioFile->move($this->getParameter('kernel.project_dir') . '/public/audio', $audioFileName);
+                $audioFile->move($this->getParameter('kernel.project_dir') . '/public_html/audio', $audioFileName);
                 // Sauvegarder l'URL dans la base de données
                 $question->setAudio('/audio/' . $audioFileName);
             } catch (FileException $e) {
