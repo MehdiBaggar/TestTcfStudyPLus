@@ -14,6 +14,7 @@ use Psr\Log\LoggerInterface;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdf\Fpdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -402,6 +403,15 @@ final class TcfController extends AbstractController
 
         return $pdf->Output('S');
 
+    }
+    #[Route('/debug/env', name: 'debug_env')]
+    public function env(ParameterBagInterface $params): Response
+    {
+        $appEnv = $params->get('kernel.environment');
+
+        return new Response(
+            '<html><body>APP_ENV: ' . $appEnv . '</body></html>'
+        );
     }
 
 
