@@ -11,12 +11,15 @@ use App\Repository\QuestionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
+use setasign\Fpdi\Fpdi;
+use setasign\Fpdf\Fpdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
@@ -157,6 +160,9 @@ final class TcfController extends AbstractController
 
         $manager->persist($test);
         $manager->flush();
+
+        $pdfContent = $this->editPdf($user->getNom(), $user->getPrenom(), $score, $niveau);
+
         $emailBody = sprintf(
             "Bonjour %s %s,\n\nVoici vos résultats du test :\n\nScore: %s\nNiveau: %s\n\nCordialement,\nVotre équipe TCF",
             $user->getNom(),
@@ -168,7 +174,9 @@ final class TcfController extends AbstractController
             ->from('mehdibaggar7@gmail.com')
             ->to($user->getEmail())
             ->subject('Your Test Results')
-            ->text($emailBody);
+            ->text($emailBody)
+            ->attach($pdfContent, 'results.pdf', 'application/pdf');  // Attach the PDF content
+
         try {
             $mailer->send($email);
             return new JsonResponse([
@@ -349,6 +357,51 @@ final class TcfController extends AbstractController
         $entityManager->flush();
 
         return new Response('Question updated successfully', Response::HTTP_OK);
+    }
+    #[Route('/pdf/test', name: 'app_pdf_test')]
+    public function editPdf(string $nom,string $prenom,string $score,string $niveau): string
+    {
+
+        $pdfPath = $this->getParameter('kernel.project_dir') . '/public_html/pdf/TCFCertficat.pdf';
+
+        if (!file_exists($pdfPath)) {
+            return new Response('PDF file not found!', Response::HTTP_NOT_FOUND);
+        }
+
+        // Extend FPDI (which extends FPDF)
+        $pdf = new class extends Fpdi {};
+
+        $pdf->setSourceFile($pdfPath);
+        $tplId = $pdf->importPage(1);
+
+        // Get the dimensions of the original PDF
+        $size = $pdf->getTemplateSize($tplId);
+
+        // Create a new page with the same size as the original
+        $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+
+        // Use the imported page
+        $pdf->useTemplate($tplId, 0, 0, $size['width'], $size['height']);
+
+        $pdf->AddFont('AlexBrush', '', 'AlexBrush-Regular.php');
+        $pdf->AddFont('Poppins-Bold', '', 'Poppins-Bold.php');
+
+        // Write text on PDF
+        $pdf->SetTextColor(43, 45, 66);
+        $pdf->SetFont('AlexBrush', '', 50);
+        $pdf->SetXY(98, 102);
+        $pdf->Cell(100, 10, $nom . ' ' .$prenom, 0, 1, 'C');
+
+        $pdf->SetFont('Poppins-Bold', '', 16);
+        $pdf->SetXY(100, 122.3);
+        $pdf->Cell(100, 10,$score , 0, 1, 'C');
+
+        $pdf->SetFont('Poppins-Bold', '', 36);
+        $pdf->SetXY(98.5, 140);
+        $pdf->Cell(100, 10,$niveau , 0, 1, 'C');
+
+        return $pdf->Output('S');
+
     }
 
 
