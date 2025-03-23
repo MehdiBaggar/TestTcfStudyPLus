@@ -38,8 +38,8 @@ final class TcfController extends AbstractController
         ]);
     }
 
-    #[Route('/Tcf', name: 'app_tcf')]
-    public function index(): Response
+    #[Route('/Tcf/{id}', name: 'app_tcf')]
+    public function index(int $id): Response
     {
         return $this->render('tcf/index.html.twig', [
             'controller_name' => 'TcfController',
