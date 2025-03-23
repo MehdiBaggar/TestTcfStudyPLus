@@ -151,7 +151,7 @@ export default {
 
 <style scoped>
 .auth-page-wrapper {
-  background-image: url('@/assets/images/test26.png'); /* Adjust the path as needed */
+  background-image: url('@/assets/images/backgroundstudyplus.jpg'); /* Adjust the path as needed */
   background-size: cover;   /* Ensures the image covers the whole page */
   background-position: center; /* Centers the background image */
 }

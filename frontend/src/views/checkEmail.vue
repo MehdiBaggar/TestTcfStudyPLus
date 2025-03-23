@@ -89,7 +89,7 @@ export default {
 <style scoped>
 /* General Styles */
 .test-container {
-  background-image: url("../assets/images/test26.png");
+  background-image: url("../assets/images/backgroundstudyplus.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

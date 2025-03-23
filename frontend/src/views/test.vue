@@ -8,12 +8,22 @@
       <div class="d-flex justify-content-center align-items-center mb-4">
         <!-- TCF Logo -->
         <div class="logo-tcf mx-3">
-          <img src="@/assets/images/tcflogo.png" alt="Logo TCF" height="40" class="logo-image" />
+          <img
+              src="@/assets/images/tcflogo.png"
+              alt="Logo TCF"
+              height="40"
+              class="logo-image"
+          />
         </div>
 
         <!-- Etawjihi Image -->
         <div class="logo-etawjihi mx-3">
-          <img src="@/assets/images/studyplus.png" alt="Etawjihi" height="40" class="logo-image studyplus-image mt-2" />
+          <img
+              src="@/assets/images/studyplus.png"
+              alt="Etawjihi"
+              height="40"
+              class="logo-image studyplus-image mt-2"
+          />
         </div>
       </div>
 
@@ -21,17 +31,31 @@
       <div v-if="!isTestStarted" class="instruction-card mt-4">
         <h2 class="h2 text-center primary-text">Bienvenue au Test</h2>
         <p class="test-description text-center">
-          Vous êtes prêt à relever le défi ? Passez un test dans des conditions identiques à celles du TCF et évaluez vos performances. Vous pouvez refaire le test autant de fois que vous le souhaitez, c'est entièrement gratuit.
-          <br><br>
-          Pour vous aider à vous préparer de manière optimale au TCF, nous vous proposons un test de 20 minutes, conçu pour reproduire les conditions exactes d'une session officielle. Attention, bien que les résultats de ce test ne garantissent pas le même score lors du TCF officiel, il constitue une excellente préparation pour maximiser vos chances de réussite.
+          Vous êtes prêt à relever le défi ? Passez un test dans des conditions
+          identiques à celles du TCF et évaluez vos performances. Vous pouvez
+          refaire le test autant de fois que vous le souhaitez, c'est
+          entièrement gratuit.
+          <br /><br />
+          Pour vous aider à vous préparer de manière optimale au TCF, nous vous
+          proposons un test de 20 minutes, conçu pour reproduire les conditions
+          exactes d'une session officielle. Attention, bien que les résultats
+          de ce test ne garantissent pas le même score lors du TCF officiel, il
+          constitue une excellente préparation pour maximiser vos chances de
+          réussite.
         </p>
-        <button @click="startTest" class="btn btn-primary large-button d-block mx-auto">
+        <button
+            @click="startTest"
+            class="btn btn-primary large-button d-block mx-auto"
+        >
           Commencer le test
         </button>
       </div>
 
       <!-- Container for Timer and Question Number -->
-      <div v-if="isTestStarted" class="d-flex justify-content-between align-items-center mb-4">
+      <div
+          v-if="isTestStarted"
+          class="d-flex justify-content-between align-items-center mb-4"
+      >
         <button type="button" class="btn btn-info text-white">
           Question {{ currentQuestionIndex + 1 }} / {{ questions.length }}
         </button>
@@ -41,14 +65,25 @@
       </div>
 
       <!-- Show the current question -->
-      <div v-if="isTestStarted && !isSubmitted && !reviewMode" class="question-box">
+      <div
+          v-if="isTestStarted && !isSubmitted && !reviewMode"
+          class="question-box"
+      >
         <div v-if="questions.length > 0 && questions[currentQuestionIndex]">
           <p class="h2">{{ currentQuestion.question }}</p>
-          <hr class="question-divider">
+          <hr class="question-divider" />
 
           <div v-if="questions[currentQuestionIndex].audio" class="audio-container">
             <h3 class="audio-title">Écoutez l'exemple audio</h3>
-            <audio ref="audioPlayer" :src="questions[currentQuestionIndex].audio" controls autoplay class="audio-player" style="display: none;" @canplay="checkAudio()"></audio>
+            <audio
+                ref="audioPlayer"
+                :src="questions[currentQuestionIndex].audio"
+                controls
+                autoplay
+                class="audio-player"
+                style="display: none"
+                @canplay="checkAudio()"
+            ></audio>
 
             <div class="audio-controls">
               <!-- Restart Audio -->
@@ -57,36 +92,48 @@
               <!-- Play/Pause Control -->
               <i v-if="!isPlaying" @click="togglePlayPause" class="ri-play-line"></i>
               <i v-if="isPlaying" @click="togglePlayPause" class="ri-pause-line"></i>
-
             </div>
           </div>
 
-
-          <div v-for="(response, i) in questions[currentQuestionIndex].shuffledReponses"
-               :key="i"
-               class="h3 answer-option"
-               :class="{'selected': answers[questions[currentQuestionIndex].id] === response}"
-               @click="answers[questions[currentQuestionIndex].id] = response">
+          <div
+              v-for="(response, i) in questions[currentQuestionIndex].shuffledReponses"
+              :key="i"
+              class="h3 answer-option"
+              :class="{
+              selected: answers[questions[currentQuestionIndex].id] === response,
+            }"
+              @click="answers[questions[currentQuestionIndex].id] = response"
+          >
             <label>
-              <input type="radio"
-                     :name="'response-' + questions[currentQuestionIndex].id"
-                     :value="response"
-                     v-model="answers[questions[currentQuestionIndex].id]"
-                     hidden />
+              <input
+                  type="radio"
+                  :name="'response-' + questions[currentQuestionIndex].id"
+                  :value="response"
+                  v-model="answers[questions[currentQuestionIndex].id]"
+                  hidden
+              />
               <span class="h3">{{ response }}</span>
             </label>
           </div>
 
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <button @click="previousQuestion"
-                    :disabled="currentQuestionIndex === 0"
-                    class="btn btn-primary large-button d-block mx-auto">
+          <div
+              class="d-flex justify-content-between align-items-center mb-4"
+          >
+            <button
+                @click="previousQuestion"
+                :disabled="currentQuestionIndex === 0"
+                class="btn btn-secondary large-button"
+            >
               précédent
             </button>
-            <button @click="nextQuestion"
-                    :disabled="!answers[questions[currentQuestionIndex].id]"
-                    class="btn btn-primary large-button d-block mx-auto">
-              {{ currentQuestionIndex === questions.length - 1 ? 'Submit' : 'Suivant' }}
+            <button
+                @click="nextQuestion"
+                :disabled="!answers[questions[currentQuestionIndex].id]"
+                class="btn btn-primary large-button"
+            >
+              {{
+                currentQuestionIndex === questions.length - 1 ? 'Submit' : 'Suivant'
+              }}
             </button>
           </div>
         </div>
@@ -96,11 +143,15 @@
       <div v-if="isSubmitted && !reviewMode" class="result-box text-center mt-4">
         <p class="primary-text">Votre niveau et score :</p>
         <p class="secondary-text">
-          <i class="ri-lock-line"></i> Consultez votre email pour le score et le niveau !
+          Score: {{ score }} - Niveau: {{ niveau }}
         </p>
+        <button @click="downloadCertificate" class="btn btn-primary mt-3 mr-2 download-button">
+          Télécharger le certificat
+        </button>
+
         <!-- Button to show answers -->
         <button @click="showAnswers = !showAnswers" class="btn btn-secondary mt-3">
-          Show Answers
+          Voir les réponses
         </button>
 
         <!-- Show answers as buttons (1 to 40) -->
@@ -110,26 +161,35 @@
                 @click="reviewQuestion(index)"
                 :class="{
                 'correct-answer-button': isCorrectAnswer(question.id),
-                'wrong-answer-button': !isCorrectAnswer(question.id) && answers[question.id]
+                'wrong-answer-button': !isCorrectAnswer(question.id) &&
+                  answers[question.id],
               }"
                 class="btn"
-                style="width: 50px; margin-right: 5px;">
+                style="width: 50px; margin-right: 5px"
+            >
               {{ index + 1 }}
             </button>
           </div>
         </div>
-
       </div>
 
       <!-- Correction View (Review Mode) -->
       <div v-if="reviewMode && isSubmitted" class="question-box">
         <div v-if="questions.length > 0 && questions[currentQuestionIndex]">
           <p class="h2">{{ currentQuestion.question }}</p>
-          <hr class="question-divider">
+          <hr class="question-divider" />
 
           <div v-if="questions[currentQuestionIndex].audio" class="audio-container">
             <h3 class="audio-title">Écoutez l'exemple audio</h3>
-            <audio ref="audioPlayer" :src="questions[currentQuestionIndex].audio" controls autoplay class="audio-player" style="display: none;" @canplay="checkAudio()"></audio>
+            <audio
+                ref="audioPlayer"
+                :src="questions[currentQuestionIndex].audio"
+                controls
+                autoplay
+                class="audio-player"
+                style="display: none"
+                @canplay="checkAudio()"
+            ></audio>
 
             <div class="audio-controls">
               <!-- Restart Audio -->
@@ -138,59 +198,71 @@
               <!-- Play/Pause Control -->
               <i v-if="!isPlaying" @click="togglePlayPause" class="ri-play-line"></i>
               <i v-if="isPlaying" @click="togglePlayPause" class="ri-pause-line"></i>
-
             </div>
           </div>
 
-
-          <div v-for="(response, i) in questions[currentQuestionIndex].shuffledReponses"
-               :key="i"
-               class="h3 answer-option"
-               :class="{
-                'correct-answer': questions[currentQuestionIndex].reponse_correcte === response,
-                'wrong-answer': answers[questions[currentQuestionIndex].id] === response && questions[currentQuestionIndex].reponse_correcte !== response,
-                'selected': answers[questions[currentQuestionIndex].id] === response && questions[currentQuestionIndex].reponse_correcte === response
-              }"
-
+          <div
+              v-for="(response, i) in questions[currentQuestionIndex].shuffledReponses"
+              :key="i"
+              class="h3 answer-option"
+              :class="{
+              'correct-answer':
+                questions[currentQuestionIndex].reponse_correcte === response,
+              'wrong-answer':
+                answers[questions[currentQuestionIndex].id] === response &&
+                questions[currentQuestionIndex].reponse_correcte !== response,
+              selected:
+                answers[questions[currentQuestionIndex].id] === response &&
+                questions[currentQuestionIndex].reponse_correcte === response,
+            }"
           >
             <label>
-              <input type="radio"
-                     :name="'response-' + questions[currentQuestionIndex].id"
-                     :value="response"
-                     :checked="answers[questions[currentQuestionIndex].id] === response"
-                     disabled
-                     hidden />
+              <input
+                  type="radio"
+                  :name="'response-' + questions[currentQuestionIndex].id"
+                  :value="response"
+                  :checked="answers[questions[currentQuestionIndex].id] === response"
+                  disabled
+                  hidden
+              />
               <span class="h3">{{ response }}</span>
             </label>
           </div>
 
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <button @click="previousQuestionReview"
-                    :disabled="currentQuestionIndex === 0"
-                    class="btn btn-primary large-button d-block mx-auto">
-              Previous
+          <div
+              class="d-flex justify-content-between align-items-center mb-4"
+          >
+            <button
+                @click="previousQuestionReview"
+                :disabled="currentQuestionIndex === 0"
+                class="btn btn-primary large-button d-block mx-auto"
+            >
+              précédent
             </button>
-            <button @click="nextQuestionReview"
-                    :disabled="currentQuestionIndex === questions.length - 1"
-                    class="btn btn-primary large-button d-block mx-auto">
-              Next
+            <button
+                @click="nextQuestionReview"
+                :disabled="currentQuestionIndex === questions.length - 1"
+                class="btn btn-primary large-button d-block mx-auto"
+            >
+              suivant
             </button>
 
-            <button @click="exitReviewMode"
-                    class="btn btn-secondary large-button d-block mx-auto">
+            <button
+                @click="exitReviewMode"
+                class="btn btn-secondary large-button d-block mx-auto"
+            >
               Exit Review
             </button>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 <script>
 import { ref, computed, watch, nextTick, onMounted } from 'vue';
-import PageHeader from "@/components/page-header";
-import Swal from "sweetalert2";
+import PageHeader from '@/components/page-header';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 
 export default {
@@ -198,16 +270,19 @@ export default {
   props: {
     etudiantId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  setup(props) { // Receive props here
+  setup(props) {
+    // Receive props here
 
     // Reactive state variables
     const questions = ref([]);
     const answers = ref({});
     const result = ref(null);
-    const currentQuestion = computed(() => questions.value[currentQuestionIndex.value] || {});
+    const currentQuestion = computed(
+        () => questions.value[currentQuestionIndex.value] || {},
+    );
     const currentQuestionIndex = ref(0);
     const timer = ref(20 * 60); // 20 minutes in seconds
     let timerInterval;
@@ -216,14 +291,15 @@ export default {
     const responsesDetails = ref([]);// Track if the test is submitted
     const showAnswers = ref(false); // Control the visibility of answer buttons
     const reviewMode = ref(false); // Correction reviewMode
+    const score = ref(null);
+    const niveau = ref(null);
     // Access the audio player ref
     const audioPlayer = ref(null);
     const isPlaying = ref(true);
     const etudiantId = ref(props.etudiantId); // Access the prop here
 
-
     watch(currentQuestionIndex, (newIndex) => {
-      console.log("Current Question Index Updated:", newIndex);
+      console.log('Current Question Index Updated:', newIndex);
     });
 
     // Fetch questions from the API
@@ -233,16 +309,16 @@ export default {
         questions.value = response.data; // Assuming the response is in JSON format
 
         // Shuffle the answers for each question once
-        questions.value.forEach(question => {
+        questions.value.forEach((question) => {
           question.shuffledReponses = shuffleAnswers(question.reponses);
         });
       } catch (error) {
         console.error('Error fetching questions:', error);
       }
     };
-    const successmsg=()=> {
-      Swal.fire("bravo!", "Test soumis avec succès!", "success");
-    }
+    const successmsg = () => {
+      Swal.fire('bravo!', 'Test soumis avec succès!', 'success');
+    };
 
     const checkAudio = () => {
       if (audioPlayer.value && audioPlayer.value.readyState >= 3) {
@@ -283,13 +359,10 @@ export default {
           }
           isPlaying.value = !isPlaying.value;
         } catch (error) {
-          console.error("Error toggling playback:", error);
+          console.error('Error toggling playback:', error);
         }
       }
     };
-
-
-
 
     // Shuffle the answers for random order
     const shuffleAnswers = (responses) => {
@@ -308,11 +381,11 @@ export default {
       if (currentQuestionIndex.value < questions.value.length - 1) {
         currentQuestionIndex.value++;
         await nextTick();
-        console.log("New question:", questions.value[currentQuestionIndex.value]);
+        console.log('New question:', questions.value[currentQuestionIndex.value]);
       } else {
         await submitTest(); // If last question, submit the test
       }
-    }
+    };
     const previousQuestion = () => {
       if (currentQuestionIndex.value > 0) {
         currentQuestionIndex.value--;
@@ -332,7 +405,7 @@ export default {
       }
     };
     const isCorrectAnswer = (questionId) => {
-      const question = questions.value.find(q => q.id === questionId);
+      const question = questions.value.find((q) => q.id === questionId);
 
       if (!question) {
         console.warn(`Question not found with ID: ${questionId}`);
@@ -345,7 +418,7 @@ export default {
     // Submit answers
     const submitTest = async () => {
       clearInterval(timerInterval);
-      const answersArray = Object.keys(answers.value).map(questionId => ({
+      const answersArray = Object.keys(answers.value).map((questionId) => ({
         questionId: questionId,
         response: answers.value[questionId],
       }));
@@ -366,11 +439,13 @@ export default {
           responsesDetails.value = response.data.responsesDetails;
         }
         console.log('Responses details:', responsesDetails.value);
+
+        score.value = response.data.score;
+        niveau.value = response.data.niveau;
       } catch (error) {
         console.error('Error submitting test:', error);
       }
     };
-
 
     const reviewQuestion = (index) => {
       currentQuestionIndex.value = index;
@@ -382,7 +457,10 @@ export default {
       showAnswers.value = false;
       currentQuestionIndex.value = 0;
     };
-// Start the timer
+    const downloadCertificate = () => {
+      window.open(`/pdf/test/${props.etudiantId}`, '_blank');
+    };
+    // Start the timer
     const startTimer = () => {
       timerInterval = setInterval(() => {
         if (timer.value > 0) {
@@ -432,7 +510,10 @@ export default {
       previousQuestionReview,
       exitReviewMode,
       isCorrectAnswer,
-      etudiantId
+      etudiantId,
+      score,
+      niveau,
+      downloadCertificate,
     };
   },
   mounted() {
@@ -443,7 +524,7 @@ export default {
 <style scoped>
 /* General Styles */
 .test-container {
-  background-image: url("../assets/images/test26.png");
+  background-image: url('../assets/images/backgroundstudyplus.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -464,8 +545,6 @@ export default {
   width: 100%;
   margin: 0 auto;
   margin-top: 0; /* Remove top margin */
-
-
 }
 
 /* Header Styles */
@@ -473,7 +552,7 @@ export default {
   background-color: #1D5F94;
   margin-top: -30px;
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 0px;
   color: white; /* Set the default text color to white */
 }
 
@@ -496,17 +575,17 @@ export default {
 /* Logo Styles */
 .logo-item {
   flex: 1; /* Each logo takes up equal space within the container */
-  display: flex;           /* Use flexbox */
+  display: flex; /* Use flexbox */
   justify-content: center; /* Center the image horizontally */
-  align-items: center;    /* Center the image vertically */
+  align-items: center; /* Center the image vertically */
 }
 
 .logo-image {
   height: 50px;
   max-width: 100%; /* Don't exceed the container width */
-  object-fit: contain;  /* Maintain image aspect ratio while fitting */
+  object-fit: contain; /* Maintain image aspect ratio while fitting */
   margin: 0 auto;
-  display: block;  /* Remove extra space below the image */
+  display: block; /* Remove extra space below the image */
 }
 
 /* Instruction Card Styles */
@@ -523,26 +602,33 @@ export default {
 .secondary-text {
   color: #495057; /* Dark gray for paragraphs */
 }
-
+.large-button {
+  font-size: 0.9rem; /* Slightly larger text */
+  padding: 0.6rem 1.2rem; /* Increased padding */
+  border-radius: 0.5rem; /* More rounded corners */
+  min-width: 120px; /* Minimum width for consistency */
+  transition: all 0.2s ease-in-out; /* Smooth hover effect */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+}
 .btn-primary {
-  background-color: #F8B63C !important; /* Dark blue */
-  border-color: #F8B63C !important;
+  background-color: #1D5F94 !important; /* Dark blue */
+  border-color: #1D5F94 !important;
   color: white !important;
 }
 
 .btn-primary:hover {
-  background-color: #F8B63C !important; /* Darker shade of blue on hover */
-  border-color: #14436a !important;
+  background-color: #1D5F94 !important; /* Darker shade of blue on hover */
+  border-color: #F8B63C !important;
 }
 
 .btn-secondary {
-  background-color: #F8B63C !important; /* Golden yellow */
-  border-color: #F8B63C !important;
-  color: #212529 !important; /* Dark text for contrast */
+  background-color: #1D5F94 !important; /* Golden yellow */
+  border-color: #1D5F94 !important;
+  color: white !important; /* Dark text for contrast */
 }
 
 .btn-secondary:hover {
-  background-color: #d0942c !important; /* Darker shade of yellow on hover */
+  background-color: #1D5F94 !important; /* Darker shade of yellow on hover */
   border-color: #d0942c !important;
 }
 .btn-info {
@@ -553,6 +639,10 @@ export default {
 .btn-info:hover {
   background-color: #F8B63C !important; /* Darker shade of blue on hover */
   border-color: #F8B63C !important;
+}
+.download-button {
+  display: inline-block; /* Add this line */
+  margin-right: 0.5rem !important; /* Keep the margin and ensure it's applied */
 }
 
 /* Question Box Styles */
@@ -571,7 +661,6 @@ export default {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 
 .selected {
   background-color: #F8B63C; /* Golden yellow for selected */
@@ -652,7 +741,7 @@ export default {
 }
 
 .wrong-answer {
-  border: 3px solid #ff7f7f !important;
+  border: 3px solid red !important;
   background-color: transparent !important;
   color: black;
 }
@@ -753,14 +842,13 @@ export default {
 }
 
 .wrong-answer-button {
-  background-color: #ff7f7f !important;
+  background-color: red !important;
   color: black !important;
-  border-color: #ff7f7f !important;
+  border-color: red !important;
 }
 .studyplus-image {
   height: 120px; /* Adjust the height */
   width: auto; /* Keep the aspect ratio */
   margin-left: 10px;
-
 }
 </style>

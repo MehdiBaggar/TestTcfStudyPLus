@@ -139,7 +139,7 @@ export default {
 
 /* New styles for the login form */
 .auth-page-wrapper {
-  background-image: url('@/assets/images/test26.png');
+  background-image: url('@/assets/images/backgroundstudyplus.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -162,32 +162,12 @@ final class TcfController extends AbstractController
         $manager->persist($test);
         $manager->flush();
 
-        $pdfContent = $this->editPdf($user->getNom(), $user->getPrenom(), $score, $niveau);
-
-        $emailBody = sprintf(
-            "Bonjour %s %s,\n\nVoici vos résultats du test :\n\nScore: %s\nNiveau: %s\n\nCordialement,\nVotre équipe TCF",
-            $user->getNom(),
-            $user->getPrenom(),
-            $score,
-            $niveau
-        );
-        $email = (new Email())
-            ->from('mehdibaggar7@gmail.com')
-            ->to($user->getEmail())
-            ->subject('Your Test Results')
-            ->text($emailBody)
-            ->attach($pdfContent, 'results.pdf', 'application/pdf');  // Attach the PDF content
-
-        try {
-            $mailer->send($email);
-            return new JsonResponse([
-                'score' => $score,
-                'niveau' => $niveau,
-                'responsesDetails' => $simplifiedResponsesDetails
-            ]);
-        } catch (\Exception $e) {
-            return new JsonResponse(['error' => 'Failed to send email: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $response = new JsonResponse([
+            'score' => $score,
+            'niveau' => $niveau,
+            'responsesDetails' => $simplifiedResponsesDetails,
+        ]);
+        return $response;
 
 
 
@@ -359,9 +339,25 @@ final class TcfController extends AbstractController
 
         return new Response('Question updated successfully', Response::HTTP_OK);
     }
-    #[Route('/pdf/test', name: 'app_pdf_test')]
-    public function editPdf(string $nom,string $prenom,string $score,string $niveau): string
+    #[Route('/pdf/test/{etudiantId}', name: 'app_pdf_test')]
+    public function editPdf(int $etudiantId, EtudiantRepository $etudiantRepository): Response
     {
+        $etudiant = $etudiantRepository->find($etudiantId);
+
+        if (!$etudiant) {
+            return new Response('Etudiant not found!', Response::HTTP_NOT_FOUND);
+        }
+
+        $nom = $etudiant->getNom();
+        $prenom = $etudiant->getPrenom();
+
+        $test = $etudiant->getTests()->last();
+        if (!$test) {
+            return new Response('No test results found for this etudiant!', Response::HTTP_NOT_FOUND);
+        }
+
+        $score = $test->getScoreTotal();
+        $niveau = $test->getNiveau();
 
         $pdfPath = $this->getParameter('kernel.project_dir') . '/public_html/pdf/TCFCertficat.pdf';
 
@@ -370,7 +366,8 @@ final class TcfController extends AbstractController
         }
 
         // Extend FPDI (which extends FPDF)
-        $pdf = new class extends Fpdi {};
+        $pdf = new class extends Fpdi {
+        };
 
         $pdf->setSourceFile($pdfPath);
         $tplId = $pdf->importPage(1);
@@ -391,28 +388,25 @@ final class TcfController extends AbstractController
         $pdf->SetTextColor(43, 45, 66);
         $pdf->SetFont('AlexBrush', '', 50);
         $pdf->SetXY(98, 102);
-        $pdf->Cell(100, 10, $nom . ' ' .$prenom, 0, 1, 'C');
+        $pdf->Cell(100, 10, $nom . ' ' . $prenom, 0, 1, 'C');
 
         $pdf->SetFont('Poppins-Bold', '', 16);
         $pdf->SetXY(100, 122.3);
-        $pdf->Cell(100, 10,$score , 0, 1, 'C');
+        $pdf->Cell(100, 10, $score, 0, 1, 'C');
 
         $pdf->SetFont('Poppins-Bold', '', 36);
         $pdf->SetXY(98.5, 140);
-        $pdf->Cell(100, 10,$niveau , 0, 1, 'C');
+        $pdf->Cell(100, 10, $niveau, 0, 1, 'C');
 
-        return $pdf->Output('S');
+        $pdfContent = $pdf->Output('S');
 
+        $response = new Response($pdfContent);
+        $response->headers->set('Content-Type', 'application/pdf');
+        $response->headers->set('Content-Disposition', 'attachment; filename="TCF_Certficat.pdf"');
+
+        return $response;
     }
-    #[Route('/debug/env', name: 'debug_env')]
-    public function env(ParameterBagInterface $params): Response
-    {
-        $appEnv = $params->get('kernel.environment');
 
-        return new Response(
-            '<html><body>APP_ENV: ' . $appEnv . '</body></html>'
-        );
-    }
 
 
 

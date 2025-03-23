@@ -19,12 +19,14 @@
           <img src="@/assets/images/studyplus.png" alt="Etawjihi" height="40" class="logo-image studyplus-image mt-2" />
         </div>
       </div>
+      <div v-if="emailError" class="text-danger">{{ emailError }}</div>
+      <br>
       <form @submit.prevent="handleSubmit">  <!-- Use a form element -->
         <b-row>
           <b-col md="6">
             <div class="mb-3">
               <label for="nom" class="form-label"
-              >Nom / اللقب <span class="text-danger">*</span></label
+              >Nom <span class="text-danger">*</span></label
               >
               <input
                   v-model="datas.nom"
@@ -39,7 +41,7 @@
           <b-col md="6">
             <div class="mb-3">
               <label for="nom" class="form-label"
-              >Prenom / الاسم <span class="text-danger">*</span></label
+              >Prenom <span class="text-danger">*</span></label
               >
               <input
                   v-model="datas.prenom"
@@ -69,7 +71,7 @@
           <b-col md="6">
             <div class="mb-3">
               <label for="tel" class="form-label"
-              >Téléphone / رقم الهاتف <span class="text-danger">*</span></label
+              >Téléphone<span class="text-danger">*</span></label
               >
               <input
                   v-model="datas.tel"
@@ -84,7 +86,7 @@
           <b-col md="6">
             <div class="mb-3">
               <label for="niveau_bac" class="form-label">
-                Choisis ton niveau d'études / اختر مستواك الدراسي
+                Choisis ton niveau d'études
                 <span class="text-danger">*</span>
               </label>
               <Multiselect
@@ -212,6 +214,7 @@ export default {
         niveau_bac: '',
         ville: '',
       },
+      emailError: null,
 
     };
 
@@ -219,6 +222,7 @@ export default {
   },
   methods: {
     async handleSubmit() {
+      this.emailError = null;
       try {
         const response = await axios.post('/etudiant/create', this.datas);
 
@@ -235,7 +239,13 @@ export default {
         this.$router.push({ name: 'TCF', params: { etudiantId: response.data.etudiantId } });
       } catch (error) {
         console.error('There was an error sending the data:', error);
-        alert('There was an error submitting the form.');
+        if (error.response && error.response.status === 409) {
+          // Email already exists error
+          this.emailError = "Cet email est déjà utilisé."; // Set the error message
+        } else {
+          // Other errors
+          this.emailError = "Une erreur est survenue. Veuillez réessayer.";
+        }
       }
     }
   }
@@ -248,7 +258,7 @@ export default {
 <style scoped>
 /* General Styles */
 .test-container {
-  background-image: url("../assets/images/test26.png");
+  background-image: url("../assets/images/backgroundstudyplus.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
