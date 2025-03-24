@@ -73,7 +73,7 @@
                 </h2>
                 <p class="mb-0 text-muted">
                   <BBadge class="bg-light text-success mb-0">
-                    <router-link to="/AllQuestions" style="color: inherit; text-decoration: none;">
+                    <router-link to="/allTests" style="color: inherit; text-decoration: none;">
                     <i class="ri-arrow-right-line"></i> </router-link>
                   </BBadge>
                   Check all Tests

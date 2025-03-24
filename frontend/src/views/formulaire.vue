@@ -7,126 +7,119 @@
       </div>
       -->
 
-
-      <div class="d-flex justify-content-center align-items-center mb-4">
+      <div class="d-flex justify-content-center align-items-center mb-4 logo-container">
         <!-- TCF Logo -->
-        <div class="logo-tcf mx-3">
-          <img src="@/assets/images/tcflogo.png" alt="Logo TCF" height="40" class="logo-image" />
+        <div class="logo-tcf mx-3 logo-item">
+          <img
+              src="@/assets/images/tcflogo.png"
+              alt="Logo TCF"
+              class="logo-image"
+          />
         </div>
 
         <!-- Etawjihi Image -->
-        <div class="logo-etawjihi mx-3">
-          <img src="@/assets/images/studyplus.png" alt="Etawjihi" height="40" class="logo-image studyplus-image mt-2" />
+        <div class="logo-etawjihi mx-3 logo-item">
+          <img
+              src="@/assets/images/studyplus.png"
+              alt="Etawjihi"
+              class="logo-image studyplus-image"
+          />
         </div>
       </div>
       <div v-if="emailError" class="text-danger">{{ emailError }}</div>
-      <br>
-      <form @submit.prevent="handleSubmit">  <!-- Use a form element -->
+      <br />
+      <form @submit.prevent="handleSubmit">
+        <!-- Use a form element -->
         <b-row>
-          <b-col md="6">
-            <div class="mb-3">
-              <label for="nom" class="form-label"
-              >Nom <span class="text-danger">*</span></label
-              >
-              <input
-                  v-model="datas.nom"
-                  type="text"
-                  class="form-control"
-                  id="nom"
-                  placeholder="Votre nom"
-                  required
-              />
-            </div>
+          <b-col md="6" class="mb-3">
+            <label for="nom" class="form-label"
+            >Nom <span class="text-danger">*</span></label
+            >
+            <input
+                v-model="datas.nom"
+                type="text"
+                class="form-control"
+                id="nom"
+                placeholder="Votre nom"
+                required
+            />
           </b-col>
-          <b-col md="6">
-            <div class="mb-3">
-              <label for="nom" class="form-label"
-              >Prenom <span class="text-danger">*</span></label
-              >
-              <input
-                  v-model="datas.prenom"
-                  type="text"
-                  class="form-control"
-                  id="nom"
-                  placeholder="Votre Prenom"
-                  required
-              />
-            </div>
+          <b-col md="6" class="mb-3">
+            <label for="prenom" class="form-label"
+            >Prenom <span class="text-danger">*</span></label
+            >
+            <input
+                v-model="datas.prenom"
+                type="text"
+                class="form-control"
+                id="prenom"
+                placeholder="Votre Prenom"
+                required
+            />
           </b-col>
-          <b-col md="6">
-            <div class="mb-3">
-              <label for="nom" class="form-label"
-              > Email <span class="text-danger">*</span></label
-              >
-              <input
-                  v-model="datas.email"
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  placeholder="Votre Email"
-                  required
-              />
-            </div>
+          <b-col md="6" class="mb-3">
+            <label for="email" class="form-label"
+            >Email <span class="text-danger">*</span></label
+            >
+            <input
+                v-model="datas.email"
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="Votre Email"
+                required
+            />
           </b-col>
-          <b-col md="6">
-            <div class="mb-3">
-              <label for="tel" class="form-label"
-              >Téléphone<span class="text-danger">*</span></label
-              >
-              <input
-                  v-model="datas.tel"
-                  type="tel"
-                  class="form-control"
-                  id="tel"
-                  placeholder="Téléphone ici..."
-                  oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 10)"
-              />
-            </div>
+          <b-col md="6" class="mb-3">
+            <label for="tel" class="form-label"
+            >Téléphone<span class="text-danger">*</span></label
+            >
+            <input
+                v-model="datas.tel"
+                type="tel"
+                class="form-control"
+                id="tel"
+                placeholder="Téléphone ici..."
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 10)"
+            />
           </b-col>
-          <b-col md="6">
-            <div class="mb-3">
-              <label for="niveau_bac" class="form-label">
-                Choisis ton niveau d'études
-                <span class="text-danger">*</span>
-              </label>
-              <Multiselect
-                  v-model="datas.niveau_bac"
-                  :options="datasNiveauBac || []"
-                  :close-on-select="true"
-                  :searchable="true"
-                  placeholder="Sélectionnez votre niveau..."
-                  class="custom-multiselect"
-              />
-            </div>
+          <b-col md="6" class="mb-3">
+            <label for="niveau_bac" class="form-label">
+              Choisis ton niveau d'études
+              <span class="text-danger">*</span>
+            </label>
+            <Multiselect
+                v-model="datas.niveau_bac"
+                :options="datasNiveauBac || []"
+                :close-on-select="true"
+                :searchable="true"
+                placeholder="Sélectionnez votre niveau..."
+                class="custom-multiselect"
+            />
           </b-col>
-          <b-col md="6">
-            <div class="mb-3">
-              <label for="ville" class="form-label"
-              >Ville <span class="text-danger">*</span></label
-              >
-              <input
-                  v-model="datas.ville"
-                  type="text"
-                  class="form-control"
-                  id="ville"
-                  placeholder="Entrez votre ville..."
-                  required
-              />
-            </div>
+          <b-col md="6" class="mb-3">
+            <label for="ville" class="form-label"
+            >Ville <span class="text-danger">*</span></label
+            >
+            <input
+                v-model="datas.ville"
+                type="text"
+                class="form-control"
+                id="ville"
+                placeholder="Entrez votre ville..."
+                required
+            />
           </b-col>
         </b-row>
 
         <div class="d-flex justify-content-center mt-4">
-          <button type="submit" class="btn btn-primary">soumettre</button>  <!-- Submit button inside the form -->
+          <button type="submit" class="btn btn-primary">soumettre</button>
+          <!-- Submit button inside the form -->
         </div>
         <div class="d-flex justify-content-center mt-4">
-          <router-link to="/checkExistingTest">
-            Déjà soumis le test ?
-          </router-link>
+          <router-link to="/checkExistingTest"> Déjà soumis le test ? </router-link>
         </div>
       </form>
-
-
     </div>
   </div>
 </template>
@@ -136,16 +129,14 @@ import Multiselect from "@vueform/multiselect";
 import PageHeader from "@/components/page-header";
 import "prismjs";
 import "prismjs/themes/prism.css";
-import axios from 'axios';
-
-
-
+import axios from "axios";
 
 export default {
   components: {
-    Multiselect,PageHeader
+    Multiselect,
+    PageHeader,
   },
-  data(){
+  data() {
     return {
       datasFiliere: [
         "Sciences Math A",
@@ -163,18 +154,16 @@ export default {
         "Arts Appliqués",
       ],
       datasNiveauBac: [
-
-        '1ère année Baccalauréat',
-        '2ème année Baccalauréat',
-        'BAC+1',
-        'BAC+2',
-        'BAC+3',
-        'BAC+4',
-        'BAC+5',
-        'BAC+6',
-        'Doctorant',
-        'Autres',
-
+        "1ère année Baccalauréat",
+        "2ème année Baccalauréat",
+        "BAC+1",
+        "BAC+2",
+        "BAC+3",
+        "BAC+4",
+        "BAC+5",
+        "BAC+6",
+        "Doctorant",
+        "Autres",
       ],
       datasDomaine: [
         "العلوم الاقتصادية وإدارة الأعمال / Sciences économiques et gestion d'entreprises",
@@ -182,63 +171,53 @@ export default {
         "علم الأحياء / Biologie",
         "الفنون والتصميم / Art et Désign",
         "آخر / Autre",
-
       ],
-      datasEchelle: [
-        '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-
-      ],
+      datasEchelle: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
       datasBudget: [
         "Moins de 10 000 Dhs/an",
         "Entre 10 000 Dhs et 20 000 Dhs/an",
         "Plus de 20 000 Dhs/an",
-
       ],
-      datasFamilleChine: [
-        "Oui / نعم",
-        "Non / لا",
-
-      ],
+      datasFamilleChine: ["Oui / نعم", "Non / لا"],
       datasAvis: [
         "Ils sont pour / هم موافقون",
         "Ils sont contre / هم غير موافقين",
         "Ils ne sont pas au courant / ليسوا على علم",
         "Ils y réfléchissent / يفكرون في الأمر",
-
       ],
       datas: {
-        tel: '',
-        email:'',
-        nom: '',
-        prenom: '',
-        niveau_bac: '',
-        ville: '',
+        tel: "",
+        email: "",
+        nom: "",
+        prenom: "",
+        niveau_bac: "",
+        ville: "",
       },
       emailError: null,
-
     };
-
-
   },
   methods: {
     async handleSubmit() {
       this.emailError = null;
       try {
-        const response = await axios.post('/etudiant/create', this.datas);
+        const response = await axios.post("/etudiant/create", this.datas);
 
-        console.log('Data sent successfully!', response.data);
+        console.log("Data sent successfully!", response.data);
 
         this.datas = {
-          tel: '',
-          email:'',
-          nom: '',
-          prenom: '',
-          niveau_bac: '',
-          ville: '',
+          tel: "",
+          email: "",
+          nom: "",
+          prenom: "",
+          niveau_bac: "",
+          ville: "",
         };
-        this.$router.push({ name: 'TCF', params: { etudiantId: response.data.etudiantId } });
+        this.$router.push({
+          name: "TCF",
+          params: { etudiantId: response.data.etudiantId },
+        });
       } catch (error) {
-        console.error('There was an error sending the data:', error);
+        console.error("There was an error sending the data:", error);
         if (error.response && error.response.status === 409) {
           // Email already exists error
           this.emailError = "Cet email est déjà utilisé."; // Set the error message
@@ -247,11 +226,8 @@ export default {
           this.emailError = "Une erreur est survenue. Veuillez réessayer.";
         }
       }
-    }
-  }
-
-
-
+    },
+  },
 };
 </script>
 
@@ -263,19 +239,17 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  /*min-height: 100vh;*/ /* Remove min-height */
-  height: 100vh; /*Set height to 100vh*/
+  min-height: 100vh;
   width: 100vw;
-  /*padding-top: 100px;*/ /* Remove padding */
-  /*padding-bottom: 100px;*/ /* Remove padding */
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px; /* Add padding for small screens */
 }
 
 .test-card {
   background-color: white;
-  padding: 30px;
+  padding: 20px; /* Reduce padding on smaller screens */
   border-radius: 15px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
   text-align: center;
@@ -284,17 +258,24 @@ export default {
   margin: 0 auto;
 }
 
-
 /* Logo Styles */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Allows logos to wrap on smaller screens */
+}
+
 .logo-item {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 100px; /* Minimum width to prevent extreme shrinking */
 }
 
 .logo-image {
-  height: 50px;
+  height: 40px;
   max-width: 100%;
   object-fit: contain;
   margin: 0 auto;
@@ -320,11 +301,39 @@ export default {
   border-color: #14436a !important;
 }
 
-
 .studyplus-image {
   height: 120px;
   width: auto;
   margin-left: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .test-card {
+    padding: 15px; /* Further reduce padding */
+  }
+
+  .logo-image {
+    height: 30px; /* Adjust logo size */
+  }
+
+  .studyplus-image {
+    height: 100px; /* Adjust studyplus logo size */
+  }
+}
+
+@media (max-width: 576px) {
+  .test-card {
+    padding: 10px; /* Even smaller padding for mobile */
+  }
+
+  .logo-image {
+    height: 25px; /* Further adjust logo size */
+  }
+
+  .studyplus-image {
+    height: 100px; /* Further adjust studyplus logo size */
+  }
 }
 </style>
 <style src="@vueform/multiselect/themes/default.css"></style>

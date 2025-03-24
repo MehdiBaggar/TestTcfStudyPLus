@@ -1,29 +1,81 @@
 <script setup>
-import { ref, onMounted, inject } from "vue";
-import { useRouter } from 'vue-router';  // Import useRouter
+import { ref, onMounted } from "vue";
+import { inject } from "vue";
 import simplebar from "simplebar-vue";
 import i18n from "../i18n";
-import axios from 'axios'; // Import Axios
-
+import { useRouter } from 'vue-router';  // Import useRouter
 const lan = ref(i18n.locale);
 const user = ref(null); // Initialize user as null
+import axios from 'axios'; // Import Axios
 const router = useRouter();
 
+
 const toggleHamburgerMenu = () => {
-  // ... (Your existing hamburger menu logic)
+  const windowSize = document.documentElement.clientWidth;
+  const layoutType = document.documentElement.getAttribute("data-layout");
+  document.documentElement.setAttribute("data-sidebar-visibility", "show");
+  const visibilityType = document.documentElement.getAttribute("data-sidebar-visibility");
+
+  if (windowSize > 767) {
+    document.querySelector(".hamburger-icon").classList.toggle("open");
+  }
+
+  if (layoutType === "horizontal") {
+    document.body.classList.toggle("menu");
+  }
+
+  if (visibilityType === "show" && (layoutType === "vertical" || layoutType === "semibox")) {
+    if (windowSize < 1025 && windowSize > 767) {
+      document.body.classList.remove("vertical-sidebar-enable");
+      document.documentElement.setAttribute(
+          "data-sidebar-size",
+          document.documentElement.getAttribute("data-sidebar-size") === "sm" ? "" : "sm"
+      );
+    } else if (windowSize > 1025) {
+      document.body.classList.remove("vertical-sidebar-enable");
+      document.documentElement.setAttribute(
+          "data-sidebar-size",
+          document.documentElement.getAttribute("data-sidebar-size") === "lg" ? "sm" : "lg"
+      );
+    } else if (windowSize <= 767) {
+      document.body.classList.add("vertical-sidebar-enable");
+      document.documentElement.setAttribute("data-sidebar-size", "lg");
+    }
+  }
+
+  if (layoutType === "twocolumn") {
+    document.body.classList.toggle("twocolumn-panel");
+  }
 };
 
 const initFullScreen = () => {
-  // ... (Your existing fullscreen logic)
+  document.body.classList.toggle("fullscreen-enable");
+  if (
+      !document.fullscreenElement &&
+      !document.mozFullScreenElement &&
+      !document.webkitFullscreenElement
+  ) {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) {
+      document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) {
+      document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+    }
+  } else {
+    if (document.cancelFullScreen) {
+      document.cancelFullScreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.webkitCancelFullScreen) {
+      document.webkitCancelFullScreen();
+    }
+  }
 };
 
 const toggleDarkMode = () => {
-  // ... (Your existing dark mode logic)
-};
-
-const logout = () => {
-  localStorage.removeItem('token');
-  router.push('/login');
+  const currentTheme = document.documentElement.getAttribute("data-bs-theme");
+  document.documentElement.setAttribute("data-bs-theme", currentTheme === "dark" ? "light" : "dark");
 };
 
 onMounted(async () => {
@@ -44,8 +96,6 @@ onMounted(async () => {
   if (topnavHamburgerIcon) {
     topnavHamburgerIcon.addEventListener("click", toggleHamburgerMenu);
   }
-
-  // Fetch user data from the backend
   try {
     const response = await axios.get('/api/user'); // Replace with your actual API endpoint
     user.value = response.data; // Assign the user data to the reactive variable
@@ -56,9 +106,7 @@ onMounted(async () => {
     router.push('/login');
   }
 });
-
 </script>
-
 <template>
   <header id="page-topbar">
     <div class="layout-width">
@@ -86,7 +134,7 @@ onMounted(async () => {
           </div>
 
           <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
-                  id="topnav-hamburger-icon">
+            id="topnav-hamburger-icon">
             <span class="hamburger-icon">
               <span></span>
               <span></span>
@@ -97,28 +145,29 @@ onMounted(async () => {
           <!-- App Search-->
         </div>
 
+
         <div class="d-flex align-items-center">
 
 
           <!-- Fullscreen -->
-          <div class="ms-1 header-item d-none d-sm-flex">
+            <div class="ms-1 header-item d-none d-sm-flex">
             <BButton type="button" variant="ghost-secondary" class="btn-icon btn-topbar rounded-circle"
-                     data-toggle="fullscreen" @click="initFullScreen">
+              data-toggle="fullscreen" @click="initFullScreen">
               <i class="bx bx-fullscreen fs-22"></i>
             </BButton>
           </div>
-          <!-- Dark/Light -->
+            <!-- Dark/Light -->
           <div class="ms-1 header-item d-none d-sm-flex">
             <BButton type="button" variant="ghost-secondary" class="btn-icon btn-topbar rounded-circle light-dark-mode"
-                     @click="toggleDarkMode">
+              @click="toggleDarkMode">
               <i class="bx bx-moon fs-22"></i>
             </BButton>
           </div>
 
           <BDropdown variant="ghost-dark" dropstart class="ms-1 dropdown"
-                     :offset="{ alignmentAxis: 57, crossAxis: 0, mainAxis: -42 }"
-                     toggle-class="btn-icon btn-topbar rounded-circle arrow-none" id="page-header-notifications-dropdown"
-                     menu-class="dropdown-menu-lg dropdown-menu-end p-0" auto-close="outside">
+            :offset="{ alignmentAxis: 57, crossAxis: 0, mainAxis: -42 }"
+            toggle-class="btn-icon btn-topbar rounded-circle arrow-none" id="page-header-notifications-dropdown"
+            menu-class="dropdown-menu-lg dropdown-menu-end p-0" auto-close="outside">
             <template #button-content>
               <i class='bx bx-bell fs-22'></i>
               <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"><span
@@ -144,10 +193,10 @@ onMounted(async () => {
             <BTabs nav-class="dropdown-tabs nav-tab-custom bg-primary px-2 pt-2">
               <BTab title=" tous " class="tab-pane fade py-2 ps-2 show" id="all-noti-tab" role="tabpanel">
                 <simplebar data-simplebar style="max-height: 300px" class="pe-2">
-                  <div class="text-reset notification-item d-block dropdown-item position-relative">
+                   <div class="text-reset notification-item d-block dropdown-item position-relative">
                     <div class="d-flex">
                       <img src="@/assets/images/baggar.jpg" class="me-3 rounded-circle avatar-xs"
-                           alt="user-pic" />
+                        alt="user-pic" />
                       <div class="flex-grow-1">
                         <BLink href="#!" class="stretched-link">
                           <h6 class="mt-0 mb-1 fs-13 fw-semibold">
@@ -176,12 +225,12 @@ onMounted(async () => {
               </BTab>
 
               <BTab title="Messages" class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel"
-                    aria-labelledby="messages-tab">
+                aria-labelledby="messages-tab">
                 <simplebar data-simplebar style="max-height: 300px" class="pe-2">
                   <div class="text-reset notification-item d-block dropdown-item position-relative">
                     <div class="d-flex">
                       <img src="@/assets/images/baggar.jpg" class="me-3 rounded-circle avatar-xs"
-                           alt="user-pic" />
+                        alt="user-pic" />
                       <div class="flex-grow-1">
                         <BLink href="#!" class="stretched-link">
                           <h6 class="mt-0 mb-1 fs-13 fw-semibold">
@@ -227,11 +276,15 @@ onMounted(async () => {
           <!-- Profile-->
 
           <BDropdown variant="link" class="ms-sm-3 header-item topbar-user" toggle-class="rounded-circle arrow-none"
-                     menu-class="dropdown-menu-end" :offset="{ alignmentAxis: -14, crossAxis: 0, mainAxis: 0 }">
+            menu-class="dropdown-menu-end" :offset="{ alignmentAxis: -14, crossAxis: 0, mainAxis: 0 }">
             <template #button-content>
               <span class="d-flex align-items-center">
                 <img class="rounded-circle header-profile-user" src="@/assets/images/noImage.png"
-                     alt="Header Avatar">
+                  alt="Header Avatar">
+                <span class="text-start ms-xl-2">
+                  <span class="d-none d-xl-inline-block ms-1 fw-semibold user-name-text"></span>
+                  <span class="d-none d-xl-block ms-1 fs-13 user-name-sub-text"></span>
+                </span>
               </span>
             </template>
             <h6 class="dropdown-header">Salam {{ user?.nom }} {{ user?.prenom }} !</h6>
@@ -240,9 +293,9 @@ onMounted(async () => {
               <span class="align-middle"> Profile</span>
               <hr>
             </router-link>
-            <a class="dropdown-item" @click.prevent="logout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
-              <span class="align-middle" data-key="t-logout">se deconnecter</span>
-            </a>
+            <router-link class="dropdown-item" to="/logout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
+              <span class="align-middle" data-key="t-logout"> se deconnecter</span>
+            </router-link>
           </BDropdown>
         </div>
       </div>

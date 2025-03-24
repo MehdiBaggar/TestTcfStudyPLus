@@ -5,24 +5,22 @@
         <PageHeader title="TCF" pageTitle="HOME" pageRoute="/" />
       </div>
 
-      <div class="d-flex justify-content-center align-items-center mb-4">
+      <div class="d-flex justify-content-center align-items-center mb-4 logo-container">
         <!-- TCF Logo -->
-        <div class="logo-tcf mx-3">
+        <div class="logo-tcf mx-3 logo-item">
           <img
               src="@/assets/images/tcflogo.png"
               alt="Logo TCF"
-              height="40"
               class="logo-image"
           />
         </div>
 
         <!-- Etawjihi Image -->
-        <div class="logo-etawjihi mx-3">
+        <div class="logo-etawjihi mx-3 logo-item">
           <img
               src="@/assets/images/studyplus.png"
               alt="Etawjihi"
-              height="40"
-              class="logo-image studyplus-image mt-2"
+              class="logo-image studyplus-image"
           />
         </div>
       </div>
@@ -70,7 +68,7 @@
           class="question-box"
       >
         <div v-if="questions.length > 0 && questions[currentQuestionIndex]">
-          <p class="h2">{{ currentQuestion.question }}</p>
+          <p class="h2 question-text">{{ currentQuestion.question }}</p>
           <hr class="question-divider" />
 
           <div v-if="questions[currentQuestionIndex].audio" class="audio-container">
@@ -176,7 +174,7 @@
       <!-- Correction View (Review Mode) -->
       <div v-if="reviewMode && isSubmitted" class="question-box">
         <div v-if="questions.length > 0 && questions[currentQuestionIndex]">
-          <p class="h2">{{ currentQuestion.question }}</p>
+          <p class="h2 question-text">{{ currentQuestion.question }}</p>
           <hr class="question-divider" />
 
           <div v-if="questions[currentQuestionIndex].audio" class="audio-container">
@@ -529,10 +527,10 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  min-height: 100vh; /* Ensure it covers at least the full viewport height */
+  min-height: 100vh;
   width: 100vw;
-  padding-top: 100px; /* Add top padding to avoid content touching the top */
-  padding-bottom: 100px; /* Add bottom padding as needed */
+  padding-top: 100px;
+  padding-bottom: 100px;
 }
 
 .test-card {
@@ -544,7 +542,7 @@ export default {
   max-width: 800px;
   width: 100%;
   margin: 0 auto;
-  margin-top: 0; /* Remove top margin */
+  margin-top: 0;
 }
 
 /* Header Styles */
@@ -553,96 +551,109 @@ export default {
   margin-top: -30px;
   padding: 15px;
   border-radius: 0px;
-  color: white; /* Set the default text color to white */
+  color: white;
 }
 
 .custom-header ::v-deep(.page-title-box h4) {
-  color: white !important; /* Ensure the title is white */
+  color: white !important;
 }
 
 .custom-header ::v-deep(.page-title-box .breadcrumb-item) {
-  color: white; /* Breadcrumb item color */
+  color: white;
 }
 
 .custom-header ::v-deep(.page-title-box .breadcrumb-item a) {
-  color: white !important; /* Breadcrumb link color */
+  color: white !important;
 }
 
 .custom-header ::v-deep(.page-title-box .breadcrumb-item.active) {
-  color: white; /* Active breadcrumb item color */
+  color: white;
 }
 
 /* Logo Styles */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Allows logos to wrap on smaller screens */
+}
+
 .logo-item {
-  flex: 1; /* Each logo takes up equal space within the container */
-  display: flex; /* Use flexbox */
-  justify-content: center; /* Center the image horizontally */
-  align-items: center; /* Center the image vertically */
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100px; /* Minimum width to prevent extreme shrinking */
 }
 
 .logo-image {
   height: 50px;
-  max-width: 100%; /* Don't exceed the container width */
-  object-fit: contain; /* Maintain image aspect ratio while fitting */
+  max-width: 100%;
+  object-fit: contain;
   margin: 0 auto;
-  display: block; /* Remove extra space below the image */
+  display: block;
 }
 
 /* Instruction Card Styles */
 .instruction-card {
-  background-color: #f8f9fa; /* Light gray background */
+  background-color: #f8f9fa;
   padding: 20px;
   border-radius: 10px;
 }
 
 .primary-text {
-  color: #1D5F94; /* Dark blue for headings */
+  color: #1D5F94;
 }
 
 .secondary-text {
-  color: #495057; /* Dark gray for paragraphs */
+  color: #495057;
 }
+
 .large-button {
-  font-size: 0.9rem; /* Slightly larger text */
-  padding: 0.6rem 1.2rem; /* Increased padding */
-  border-radius: 0.5rem; /* More rounded corners */
-  min-width: 120px; /* Minimum width for consistency */
-  transition: all 0.2s ease-in-out; /* Smooth hover effect */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  min-width: 120px;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
+
 .btn-primary {
-  background-color: #1D5F94 !important; /* Dark blue */
+  background-color: #1D5F94 !important;
   border-color: #1D5F94 !important;
   color: white !important;
 }
 
 .btn-primary:hover {
-  background-color: #1D5F94 !important; /* Darker shade of blue on hover */
+  background-color: #1D5F94 !important;
   border-color: #F8B63C !important;
 }
 
 .btn-secondary {
-  background-color: #1D5F94 !important; /* Golden yellow */
+  background-color: #1D5F94 !important;
   border-color: #1D5F94 !important;
-  color: white !important; /* Dark text for contrast */
+  color: white !important;
 }
 
 .btn-secondary:hover {
-  background-color: #1D5F94 !important; /* Darker shade of yellow on hover */
+  background-color: #1D5F94 !important;
   border-color: #d0942c !important;
 }
+
 .btn-info {
-  background-color: transparent !important; /* Dark blue */
+  background-color: transparent !important;
   border-color: #F8B63C !important;
   color: #14436a !important;
 }
+
 .btn-info:hover {
-  background-color: #F8B63C !important; /* Darker shade of blue on hover */
+  background-color: #F8B63C !important;
   border-color: #F8B63C !important;
 }
+
 .download-button {
-  display: inline-block; /* Add this line */
-  margin-right: 0.5rem !important; /* Keep the margin and ensure it's applied */
+  display: inline-block;
+  margin-right: 0.5rem !important;
 }
 
 /* Question Box Styles */
@@ -651,7 +662,7 @@ export default {
 }
 
 .question-divider {
-  border-top: 2px solid #1D5F94; /* Dark blue divider */
+  border-top: 2px solid #1D5F94;
 }
 
 .answer-option {
@@ -663,7 +674,7 @@ export default {
 }
 
 .selected {
-  background-color: #F8B63C; /* Golden yellow for selected */
+  background-color: #F8B63C;
   color: #212529;
 }
 
@@ -676,7 +687,7 @@ export default {
 .audio-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #F8B63C; /* Dark blue */
+  color: #F8B63C;
   margin-bottom: 15px;
 }
 
@@ -694,7 +705,7 @@ export default {
   cursor: pointer;
   margin: 0 10px;
   transition: transform 0.3s ease;
-  color: #F8B63C; /* Dark blue */
+  color: #F8B63C;
 }
 
 .audio-controls i:hover {
@@ -748,37 +759,8 @@ export default {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-  .logo-image {
-    height: 35px;
-  }
-}
-
-@media (max-width: 576px) {
-  .logo-image {
-    height: 30px;
-  }
-  .h2 {
-    font-size: 1.3rem;
-  }
-
-  .h3 {
-    font-size: 0.9rem;
-  }
-
-  /* Adjust the question size */
-  .question-box .h2 {
-    font-size: 1.1rem; /* Reduce the font size here for mobile */
-  }
-}
-/* Responsive styles */
-@media (max-width: 768px) {
   .test-card {
     padding: 20px;
-  }
-
-  .test-header {
-    flex-direction: row;
-    justify-content: space-between;
   }
 
   .logo-image {
@@ -786,12 +768,49 @@ export default {
   }
 
   .large-button {
-    font-size: 1.2rem;
-    padding: 10px 18px;
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    min-width: 100px;
   }
 
   .test-description {
-    font-size: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .h2 {
+    font-size: 1.2rem;
+  }
+
+  .h3 {
+    font-size: 0.8rem;
+  }
+
+  .audio-title {
+    font-size: 1.2rem;
+  }
+
+  .audio-player {
+    width: 90%;
+  }
+}
+
+@media (max-width: 576px) {
+  .test-card {
+    padding: 10px;
+  }
+
+  .large-button {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+    min-width: 80px;
+  }
+
+  .logo-image {
+    height: 30px;
+  }
+
+  .test-description {
+    font-size: 0.8rem;
   }
 
   .h2 {
@@ -801,40 +820,21 @@ export default {
   .h3 {
     font-size: 0.7rem;
   }
-}
 
-@media (max-width: 576px) {
-  /* Existing styles */
-  .test-card {
-    padding: 10px;
-  }
-
-  .large-button {
+  .question-text {
     font-size: 1rem;
-    padding: 10px 15px;
   }
 
-  .logo-image {
-    height: 30px;
+  .audio-title {
+    font-size: 1rem;
   }
 
-  .test-description {
-    font-size: 0.9rem;
-  }
-
-  .h2 {
-    font-size: 1.3rem;
-  }
-
-  .h3 {
-    font-size: 0.9rem;
-  }
-
-  /* Adjust the question size */
-  .question-box .h2 {
-    font-size: 1.1rem; /* Reduce the font size here for mobile */
+  .audio-controls i {
+    font-size: 24px;
+    margin: 0 5px;
   }
 }
+
 .correct-answer-button {
   background-color: lightgreen !important;
   color: black !important;
@@ -846,9 +846,10 @@ export default {
   color: black !important;
   border-color: red !important;
 }
+
 .studyplus-image {
-  height: 120px; /* Adjust the height */
-  width: auto; /* Keep the aspect ratio */
+  height: auto; /* Adjust the height */
+  width: 120px;/* Keep the aspect ratio */
   margin-left: 10px;
 }
 </style>
