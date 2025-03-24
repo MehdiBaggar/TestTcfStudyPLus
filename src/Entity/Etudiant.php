@@ -59,7 +59,7 @@ class Etudiant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Test>
      */
-    #[ORM\OneToMany(targetEntity: Test::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Test::class, mappedBy: 'user',cascade: ['remove'])]
     private Collection $tests;
 
     #[ORM\Column(length: 255, nullable: true)]

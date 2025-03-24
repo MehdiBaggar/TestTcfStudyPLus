@@ -301,31 +301,6 @@ final class EtudiantController extends AbstractController
         return new JsonResponse($userData);
     }
     // Helper function to decode the JWT
-    #[Route('/create-admin', name: 'app_create_admin')]
-    public function createAdmin(UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
-    {
-        // Check if an admin user already exists (optional, but recommended)
-        $adminUser = $entityManager->getRepository(Etudiant::class)->findOneBy(['email' => 'admin@admin.com']);
 
-        if ($adminUser) {
-            return new Response('Admin user already exists. Please delete this route and function!', Response::HTTP_OK);
-        }
-
-        $etudiant = new Etudiant();
-        $etudiant->setEmail('admin@admin.com');
-        $etudiant->setRoles(['ROLE_ADMIN']);
-
-        // Hash the password
-        $hashedPassword = $passwordHasher->hashPassword(
-            $etudiant,
-            'admin123'  // The plain-text password
-        );
-        $etudiant->setPassword($hashedPassword);
-
-        $entityManager->persist($etudiant);
-        $entityManager->flush();
-
-        return new Response('Admin user created successfully.  PLEASE DELETE THIS ROUTE AND FUNCTION!', Response::HTTP_OK);
-    }
 
 }

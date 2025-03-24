@@ -33,7 +33,7 @@ class Test
     /**
      * @var Collection<int, ReponseEtudiant>
      */
-    #[ORM\OneToMany(targetEntity: ReponseEtudiant::class, mappedBy: 'test')]
+    #[ORM\OneToMany(targetEntity: ReponseEtudiant::class, mappedBy: 'test',cascade: ['remove'])]
     private Collection $reponseEtudiants;
 
     /**
