@@ -11,7 +11,7 @@
 
         <!-- Etawjihi Image -->
         <div class="logo-etawjihi mx-3">
-          <img src="@/assets/images/studyplus.png" alt="Etawjihi" height="40" class="logo-image studyplus-image mt-2" />
+          <img src="@/assets/images/Logo-studyplus.png" alt="Etawjihi" height="40" class="logo-image studyplus-image mt-2" />
         </div>
       </div>
       <div v-if="showAlert" class="alert alert-danger mt-2" role="alert">
@@ -154,9 +154,9 @@ export default {
 
 
 .studyplus-image {
-  height: 120px;
+  height:80px;
   width: auto;
-  margin-left: 10px;
+  margin-left: 100px;
 }
 </style>
 <style src="@vueform/multiselect/themes/default.css"></style>

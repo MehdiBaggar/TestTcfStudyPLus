@@ -20,7 +20,7 @@
         <!-- Etawjihi Image -->
         <div class="logo-etawjihi mx-3 logo-item">
           <img
-              src="@/assets/images/studyplus.png"
+              src="@/assets/images/Logo-studyplus.png"
               alt="Etawjihi"
               class="logo-image studyplus-image"
           />
@@ -113,7 +113,7 @@
         </b-row>
 
         <div class="d-flex justify-content-center mt-4">
-          <button type="submit" class="btn btn-primary">soumettre</button>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
           <!-- Submit button inside the form -->
         </div>
         <div class="d-flex justify-content-center mt-4">
@@ -302,9 +302,9 @@ export default {
 }
 
 .studyplus-image {
-  height: 120px;
+  height: 80px;
   width: auto;
-  margin-left: 10px;
+  margin-left: 80px;
 }
 
 /* Responsive Styles */

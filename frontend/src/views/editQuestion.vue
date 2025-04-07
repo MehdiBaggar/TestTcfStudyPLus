@@ -171,7 +171,7 @@ export default {
 
         if (response.status === 200) {
           alert('Question modifiée avec succès');
-          this.$router.push({ name: 'TCF' }); // Navigate back to the index page
+          this.$router.push({ name: 'AllQuestions' }); // Navigate back to the index page
         }
       } catch (error) {
         console.error('Error updating the question:', error);

@@ -18,7 +18,7 @@
         <!-- Etawjihi Image -->
         <div class="logo-etawjihi mx-3 logo-item">
           <img
-              src="@/assets/images/studyplus.png"
+              src="@/assets/images/Logo-studyplus.png"
               alt="Etawjihi"
               class="logo-image studyplus-image"
           />
@@ -849,7 +849,7 @@ export default {
 
 .studyplus-image {
   height: auto; /* Adjust the height */
-  width: 120px;/* Keep the aspect ratio */
-  margin-left: 10px;
+  width: 80px;/* Keep the aspect ratio */
+  margin-left: 100px;
 }
 </style>

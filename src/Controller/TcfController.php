@@ -207,6 +207,7 @@ final class TcfController extends AbstractController
             $audioFile = $request->files->get('audio');
             $audioFileName = uniqid() . '.' . $audioFile->guessExtension();
 
+
             try {
                 // Déplacer le fichier dans le répertoire public_html/audio
                 $audioFile->move($this->getParameter('kernel.project_dir') . '/public_html/audio', $audioFileName);
@@ -318,7 +319,7 @@ final class TcfController extends AbstractController
         if ($audioFile) {
             $originalFilename = pathinfo($audioFile->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $slugger->slug($originalFilename);
-            $newFilename = $safeFilename . '-' . uniqid() . '.' . $audioFile->guessExtension();
+            $newFilename = '/audio/' . $safeFilename . '.' . $audioFile->guessExtension(); // Set the new filename
 
             try {
                 $audioFile->move(
