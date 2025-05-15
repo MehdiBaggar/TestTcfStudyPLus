@@ -388,15 +388,15 @@ final class TcfController extends AbstractController
         // Write text on PDF
         $pdf->SetTextColor(43, 45, 66);
         $pdf->SetFont('AlexBrush', '', 50);
-        $pdf->SetXY(98, 102);
+        $pdf->SetXY(98, 95);
         $pdf->Cell(100, 10, $nom . ' ' . $prenom, 0, 1, 'C');
 
         $pdf->SetFont('Poppins-Bold', '', 16);
-        $pdf->SetXY(100, 122.3);
+        $pdf->SetXY(100, 113.5);
         $pdf->Cell(100, 10, $score, 0, 1, 'C');
 
         $pdf->SetFont('Poppins-Bold', '', 36);
-        $pdf->SetXY(98.5, 140);
+        $pdf->SetXY(98.5, 130);
         $pdf->Cell(100, 10, $niveau, 0, 1, 'C');
 
         $pdfContent = $pdf->Output('S');

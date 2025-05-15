@@ -1,88 +1,79 @@
 <template>
-  <div
-      class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100"
-  >
+  <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
     <div class="bg-overlay"></div>
     <div class="auth-page-content overflow-hidden pt-lg-5">
       <b-container>
         <b-row>
           <b-col lg="12">
-            <b-card no-body class="overflow-hidden">
+            <b-card no-body class="overflow-hidden shadow-lg">
               <b-row class="g-0">
                 <b-col lg="12">
                   <div class="p-lg-5 p-4">
-                    <form
-                        v-on:submit.prevent="submitForm()"
-                        class="form-steps"
-                        autocomplete="off"
-                    >
+                    <form v-on:submit.prevent="submitForm()" class="form-steps" autocomplete="off">
                       <div class="text-center pt-3 pb-4 mb-1">
-                        <b-link href="/"
-                        ><img
-                            src="@/assets/images/studyplus.png"
-                            alt=""
-                            height="130"
-                        /></b-link>
+                        <b-link href="/"><img src="@/assets/images/tcflogo.png" alt="Logo" height="80" /></b-link>
                       </div>
                       <div class="step-arrow-nav mb-4">
                         <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
                           <li class="nav-item" role="presentation">
-                            <b-button
-                                variant="link"
-                                class="nav-link active"
-                                id="form-tab"
-                                type="button"
-
-                            >Edit Question</b-button
-                            >
+                            <b-button variant="link" class="nav-link active" id="form-tab" type="button">
+                              Edit Question
+                            </b-button>
                           </li>
                         </ul>
                       </div>
-                      <div>
+                      <div class="form-group">
                         <label for="question">Question :</label>
-                        <textarea v-model="formData.question" id="question" required></textarea>
+                        <textarea v-model="formData.question" id="question" class="form-control" required></textarea>
                       </div>
 
-                      <div>
+                      <div class="form-group">
                         <label for="type">Type :</label>
                         <div>
-                          <input type="radio" id="comprehension_orale" value="Compréhension orale" v-model="formData.type" /> Compréhension orale
-                          <input type="radio" id="maitrise_structures" value="Maîtrise des structures de la langue" v-model="formData.type" /> Maîtrise des structures de la langue
-                          <input type="radio" id="comprehension_langue_ecrite" value="Compréhension de la langue écrite" v-model="formData.type" /> Compréhension de la langue écrite
+                          <input type="radio" id="comprehension_orale" value="Compréhension orale" v-model="formData.type" />
+                          <label for="comprehension_orale">Compréhension orale</label>
+                          <input type="radio" id="maitrise_structures" value="Maîtrise des structures de la langue" v-model="formData.type" />
+                          <label for="maitrise_structures">Maîtrise des structures de la langue</label>
+                          <input type="radio" id="comprehension_langue_ecrite" value="Compréhension de la langue écrite" v-model="formData.type" />
+                          <label for="comprehension_langue_ecrite">Compréhension de la langue écrite</label>
                         </div>
                       </div>
 
-                      <div>
+                      <div class="form-group">
                         <label for="difficulteeeee">Difficulté :</label>
                         <div>
-                          <input type="radio" id="A1" value="A1" v-model="formData.difficulteeeee" /> A1
-                          <input type="radio" id="A2" value="A2" v-model="formData.difficulteeeee" /> A2
-                          <input type="radio" id="B1" value="B1" v-model="formData.difficulteeeee" /> B1
-                          <input type="radio" id="B2" value="B2" v-model="formData.difficulteeeee" /> B2
-                          <input type="radio" id="C1" value="C1" v-model="formData.difficulteeeee" /> C1
-                          <input type="radio" id="C2" value="C2" v-model="formData.difficulteeeee" /> C2
+                          <input type="radio" id="A1" value="A1" v-model="formData.difficulteeeee" />
+                          <label for="A1">A1</label>
+                          <input type="radio" id="A2" value="A2" v-model="formData.difficulteeeee" />
+                          <label for="A2">A2</label>
+                          <input type="radio" id="B1" value="B1" v-model="formData.difficulteeeee" />
+                          <label for="B1">B1</label>
+                          <input type="radio" id="B2" value="B2" v-model="formData.difficulteeeee" />
+                          <label for="B2">B2</label>
+                          <input type="radio" id="C1" value="C1" v-model="formData.difficulteeeee" />
+                          <label for="C1">C1</label>
+                          <input type="radio" id="C2" value="C2" v-model="formData.difficulteeeee" />
+                          <label for="C2">C2</label>
                         </div>
                       </div>
 
-                      <div v-if="formData.type === 'Compréhension orale'">
+                      <div v-if="formData.type === 'Compréhension orale'" class="form-group">
                         <label for="audio">Audio (fichier) :</label>
-                        <input type="file" @change="handleFileUpload" id="audio" />
-                        <audio v-if="audioURL" :src="audioURL" controls></audio>
-
+                        <input type="file" @change="handleFileUpload" id="audio" class="form-control" />
+                        <audio v-if="audioURL" :src="audioURL" controls class="mt-3"></audio>
                       </div>
 
-                      <div>
+                      <div class="form-group">
                         <label for="reponseCorrecte">Réponse correcte :</label>
-                        <input v-model="formData.reponseCorrecte" type="text" id="reponseCorrecte" />
+                        <input v-model="formData.reponseCorrecte" type="text" id="reponseCorrecte" class="form-control" />
                       </div>
 
-                      <div>
+                      <div class="form-group">
                         <label for="reponses">Réponses (séparées par des virgules) :</label>
-                        <input v-model="formData.reponses" type="text" id="reponses" />
+                        <input v-model="formData.reponses" type="text" id="reponses" class="form-control" />
                       </div>
 
-                      <button type="submit">Modifier</button>
-
+                      <button type="submit" class="btn btn-primary btn-block">Modifier</button>
                     </form>
                   </div>
                 </b-col>
@@ -92,7 +83,6 @@
         </b-row>
       </b-container>
     </div>
-
   </div>
 </template>
 
@@ -187,5 +177,33 @@ export default {
   background-image: url('@/assets/images/backgroundstudyplus.jpg'); /* Adjust the path as needed */
   background-size: cover;
   background-position: center;
+  padding-top: 30px;
+}
+
+.auth-page-content {
+
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+textarea.form-control, input.form-control {
+  width: 100%;
+  padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+input[type="radio"] {
+  margin-right: 10px;
+}
+
+
+
+audio {
+  width: 100%;
+  margin-top: 15px;
 }
 </style>

@@ -15,7 +15,7 @@
           />
         </div>
 
-        <!-- Etawjihi Image -->
+        <!-- Etawjihi Image
         <div class="logo-etawjihi mx-3 logo-item">
           <img
               src="@/assets/images/Logo-studyplus.png"
@@ -23,6 +23,7 @@
               class="logo-image studyplus-image"
           />
         </div>
+         -->
       </div>
 
       <!-- Start Test Button -->

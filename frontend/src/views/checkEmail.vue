@@ -9,11 +9,13 @@
           <img src="@/assets/images/tcflogo.png" alt="Logo TCF" height="40" class="logo-image" />
         </div>
 
-        <!-- Etawjihi Image -->
+        <!-- Etawjihi Image
         <div class="logo-etawjihi mx-3">
           <img src="@/assets/images/Logo-studyplus.png" alt="Etawjihi" height="40" class="logo-image studyplus-image mt-2" />
         </div>
+        -->
       </div>
+
       <div v-if="showAlert" class="alert alert-danger mt-2" role="alert">
         No test found with that email address. Please add the email to do the test!
       </div>

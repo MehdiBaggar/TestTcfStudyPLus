@@ -11,10 +11,11 @@
           <img src="@/assets/images/tcflogo.png" alt="Logo TCF" height="40" class="logo-image" />
         </div>
 
-        <!-- Etawjihi Image -->
+        <!-- Etawjihi Image
         <div class="logo-etawjihi mx-3">
           <img src="@/assets/images/studyplus.png" alt="Etawjihi" height="40" class="logo-image studyplus-image mt-2" />
         </div>
+        -->
       </div>
       <form @submit.prevent="handleSubmit">  <!-- Use a form element -->
         <b-row>

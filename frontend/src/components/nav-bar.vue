@@ -116,19 +116,19 @@ onMounted(async () => {
           <div class="navbar-brand-box horizontal-logo">
             <router-link to="/" class="logo logo-dark">
               <span class="logo-sm">
-                <img src="@/assets/images/studyplus.png" alt="" height="22" />
+                <img src="@/assets/images/tcflogo.png" alt="" height="40" />
               </span>
               <span class="logo-lg">
-                <img src="@/assets/images/studyplus.png" alt="" height="17" />
+                <img src="@/assets/images/tcflogo.png" alt="" height="50" />
               </span>
             </router-link>
 
-            <router-link to="/" class="logo logo-light mt-4">
+            <router-link to="/" class="logo logo-light">
               <span class="logo-sm">
-                <img src="@/assets/images/studyplus.png" alt="" height="50" />
+                <img src="@/assets/images/tcflogo.png" alt="" height="40" />
               </span>
-              <span class="logo-lg">
-                <img src="@/assets/images/studyplus.png" alt="" height="130" />
+              <span class="logo-lg mb-4">
+                <img src="@/assets/images/tcflogo.png" alt="" height="50" />
               </span>
             </router-link>
           </div>

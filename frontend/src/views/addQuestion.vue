@@ -44,6 +44,7 @@ export default {
 
         if (response.status === 201) {
           alert('Question ajoutée avec succès');
+          this.$router.push({ name: 'AllQuestions' });
         }
       } catch (error) {
         console.error('Erreur lors de l\'ajout de la question:', error);
@@ -66,76 +67,60 @@ export default {
               <b-row class="g-0">
                 <b-col lg="12">
                   <div class="p-lg-5 p-4">
-                    <form
-                        v-on:submit.prevent="submitForm()"
-                        class="form-steps"
-                        autocomplete="off"
-                    >
+                    <form v-on:submit.prevent="submitForm()" class="form-steps" autocomplete="off">
                       <div class="text-center pt-3 pb-4 mb-1">
-                        <b-link href="#"
-                        ><img
-                            src="@/assets/images/studyplus.png"
-                            alt=""
-                            height="150"
-                        /></b-link>
-                      </div>
-                      <div class="step-arrow-nav mb-4">
-                        <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
-                          <li class="nav-item" role="presentation">
-                            <b-button
-                                variant="link"
-                                class="nav-link active"
-                                id="form-tab"
-                                type="button"
-
-                            >Add Question</b-button
-                            >
-                          </li>
-                        </ul>
-                      </div>
-                      <div>
-                        <label for="question">Question :</label>
-                        <textarea v-model="formData.question" id="question" required></textarea>
+                        <b-link href="#">
+                          <img src="@/assets/images/tcflogo.png" alt="StudyPlus Logo" height="80" />
+                        </b-link>
                       </div>
 
-                      <div>
-                        <label for="type">Type :</label>
-                        <div>
-                          <input type="radio" id="comprehension_orale" value="Compréhension orale" v-model="formData.type" /> Compréhension orale
-                          <input type="radio" id="maitrise_structures" value="Maîtrise des structures de la langue" v-model="formData.type" /> Maîtrise des structures de la langue
-                          <input type="radio" id="comprehension_langue_ecrite" value="Compréhension de la langue écrite" v-model="formData.type" /> Compréhension de la langue écrite
+                      <div class="mb-4">
+                        <h4 class="text-center">Ajouter une Question</h4>
+                      </div>
+
+                      <div class="form-group mb-3">
+                        <label for="question" class="form-label">Question :</label>
+                        <textarea v-model="formData.question" id="question" class="form-control" rows="4" required></textarea>
+                      </div>
+
+                      <div class="form-group mb-3">
+                        <label class="form-label">Type :</label>
+                        <div class="form-check" v-for="(label, value) in {
+      'Compréhension orale': 'Compréhension orale',
+      'Maîtrise des structures de la langue': 'Maîtrise des structures de la langue',
+      'Compréhension de la langue écrite': 'Compréhension de la langue écrite'
+    }" :key="value">
+                          <input class="form-check-input" type="radio" :id="value" :value="value" v-model="formData.type" />
+                          <label class="form-check-label" :for="value">{{ label }}</label>
                         </div>
                       </div>
 
-                      <div>
-                        <label for="difficulteeeee">Difficulté :</label>
-                        <div>
-                          <input type="radio" id="A1" value="A1" v-model="formData.difficulteeeee" /> A1
-                          <input type="radio" id="A2" value="A2" v-model="formData.difficulteeeee" /> A2
-                          <input type="radio" id="B1" value="B1" v-model="formData.difficulteeeee" /> B1
-                          <input type="radio" id="B2" value="B2" v-model="formData.difficulteeeee" /> B2
-                          <input type="radio" id="C1" value="C1" v-model="formData.difficulteeeee" /> C1
-                          <input type="radio" id="C2" value="C2" v-model="formData.difficulteeeee" /> C2
+                      <div class="form-group mb-3">
+                        <label class="form-label">Difficulté :</label>
+                        <div class="form-check form-check-inline" v-for="level in ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']" :key="level">
+                          <input class="form-check-input" type="radio" :id="level" :value="level" v-model="formData.difficulteeeee" />
+                          <label class="form-check-label" :for="level">{{ level }}</label>
                         </div>
                       </div>
 
-                      <div v-if="formData.type === 'Compréhension orale'">
-                        <label for="audio">Audio (fichier) :</label>
-                        <input type="file" @change="handleFileUpload" id="audio" />
+                      <div v-if="formData.type === 'Compréhension orale'" class="form-group mb-3">
+                        <label for="audio" class="form-label">Audio (fichier) :</label>
+                        <input type="file" class="form-control" @change="handleFileUpload" id="audio" />
                       </div>
 
-                      <div>
-                        <label for="reponseCorrecte">Réponse correcte :</label>
-                        <input v-model="formData.reponseCorrecte" type="text" id="reponseCorrecte" />
+                      <div class="form-group mb-3">
+                        <label for="reponseCorrecte" class="form-label">Réponse correcte :</label>
+                        <input v-model="formData.reponseCorrecte" type="text" id="reponseCorrecte" class="form-control" />
                       </div>
 
-                      <div>
-                        <label for="reponses">Réponses (séparées par des virgules) :</label>
-                        <input v-model="formData.reponses" type="text" id="reponses" />
+                      <div class="form-group mb-4">
+                        <label for="reponses" class="form-label">Réponses (séparées par des virgules) :</label>
+                        <input v-model="formData.reponses" type="text" id="reponses" class="form-control" />
                       </div>
 
-                      <button type="submit">Soumettre</button>
-
+                      <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Soumettre la Question</button>
+                      </div>
                     </form>
                   </div>
                 </b-col>
@@ -154,5 +139,8 @@ export default {
   background-image: url('@/assets/images/backgroundstudyplus.jpg'); /* Adjust the path as needed */
   background-size: cover;   /* Ensures the image covers the whole page */
   background-position: center; /* Centers the background image */
+}
+form {
+  padding: 30px;
 }
 </style>

@@ -5,7 +5,7 @@
     </div>
     <br>
     <router-link to="/addQuestion" class="nav-link custom-abc" data-key="t-forms">
-      <button type="button" class="btn btn-primary">Add Question</button>
+      <button type="button" class="btn btn-primary">Ajouter Question</button>
     </router-link>
 
     <div class="table-responsive table-card mt-4">
@@ -79,14 +79,25 @@ export default {
       this.$router.push({ name: 'editQuestion', params: { id: parseInt(question.id, 10) } });
     },
     async deleteForm(question) {
-      try {
-        await axios.delete(`/delete/question/${question.id}`);
-        this.fetchQuestions(); // Refresh the list
-      } catch (error) {
-        console.error('Error deleting form:', error);
-        // Handle the error appropriately (e.g., display an error message)
+      if (confirm('Are you sure you want to delete this question?')) {
+        this.loading = true; // Show loading state
+        this.error = null; // Reset error state
+
+        try {
+          await axios.delete(`/delete/question/${question.id}`);
+
+          // If delete was successful, remove the question from the list
+          this.questions = this.questions.filter(q => q.id !== question.id);
+
+        } catch (e) {
+          this.error = 'Error deleting question: ' + e.message;
+          console.error(e);
+        } finally {
+          this.loading = false; // Hide loading state
+        }
       }
-    },
+    }
+,
   },
 };
 </script>
